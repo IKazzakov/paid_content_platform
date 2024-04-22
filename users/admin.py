@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.forms import UserChangeForm
@@ -15,6 +17,14 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'phone', 'avatar')
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if User.objects.filter(phone=phone).exists():
+            raise forms.ValidationError('Phone number already exists')
+        elif not re.match(r'^\+7\d{10}$', phone):
+            raise forms.ValidationError('Phone number must start with +7 and contain 10 digits')
+        return phone
 
     def clean_confirm_password(self):
         cleaned_data = super().clean()
