@@ -56,7 +56,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     username = models.CharField(max_length=50, **NULLABLE, unique=True, verbose_name='Username')
-    phone = models.CharField(max_length=10, unique=True, verbose_name='Phone number')
+    phone = models.CharField(max_length=25, unique=True, verbose_name='Phone number')
     avatar = models.ImageField(upload_to='users/', **NULLABLE, verbose_name='Avatar')
 
     USERNAME_FIELD = 'phone'
