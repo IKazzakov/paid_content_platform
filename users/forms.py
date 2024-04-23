@@ -14,8 +14,7 @@ class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            if 'class' not in field.widget.attrs:
-                field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['class'] = 'form-control'
 
 
 class CustomUserRegisterForm(StyleFormMixin, UserCreationForm):
@@ -84,7 +83,7 @@ class CustomAuthenticationForm(StyleFormMixin, AuthenticationForm):
     A custom form for authenticating a user.
     """
     username = forms.CharField(
-        max_length=10,
+        max_length=12,
         label='Phone number',
         help_text='Enter your phone number',
         required=True,

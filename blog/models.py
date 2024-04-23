@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 from transliterate import translit
@@ -23,7 +24,7 @@ class Comment(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(max_length=255, verbose_name='Title')
-    slug = models.SlugField(max_length=255, verbose_name='Slug')
+    slug = models.SlugField(max_length=255, verbose_name='Slug', unique=True)
     image = models.ImageField(upload_to='blog/', **NULLABLE, verbose_name='Image')
     description = models.TextField(verbose_name='Description', **NULLABLE)
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
@@ -33,7 +34,7 @@ class Blog(models.Model):
     views = models.IntegerField(default=0, verbose_name='Views', **NULLABLE)
     price = models.IntegerField(default=0, verbose_name='Price')
     is_paid = models.BooleanField(default=False, verbose_name='Is paid')
-    comment = models.ManyToManyField(Comment, verbose_name='Comment', **NULLABLE)
+    comments = models.ManyToManyField(Comment, verbose_name='Comments', blank=True)
 
     class Meta:
         verbose_name = 'Blog'
@@ -56,8 +57,8 @@ class Blog(models.Model):
 
         super().save(*args, **kwargs)
 
-    # def get_absolute_url(self):
-    #     return f'/blog/{self.slug}'
+    def get_absolute_url(self):
+        return reverse('blog:blog_detail', kwargs={'slug': self.slug})
 
     def toggle_published(self):
         """
