@@ -1,6 +1,7 @@
-from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, \
     PasswordResetCompleteView
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
@@ -38,9 +39,10 @@ class CustomLoginView(LoginView):
         return super().form_valid(form)
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = CustomUserChangeForm
+    success_url = reverse_lazy('blog:home')
 
     def get_object(self, queryset=None):
         return self.request.user

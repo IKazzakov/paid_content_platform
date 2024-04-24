@@ -124,7 +124,7 @@ class CustomPasswordResetForm(StyleFormMixin, PasswordResetForm):
         widget=forms.HiddenInput(),
     )
     phone = forms.CharField(
-        max_length=10,
+        max_length=12,
         label='Phone number',
         help_text='Enter your phone number',
         required=True,
@@ -134,6 +134,20 @@ class CustomPasswordResetForm(StyleFormMixin, PasswordResetForm):
     class Meta:
         model = User
         fields = ('phone',)
+
+    def clean_phone(self):
+        """
+        A method to clean and validate the phone number field.
+
+        Parameters:
+            self: the instance of the form
+        Returns:
+            phone: the cleaned and validated phone number
+        """
+        phone = self.cleaned_data.get('phone')
+        if not re.match(r'^\+7\d{10}$', phone):
+            raise forms.ValidationError('Phone number must start with +7 and contain 10 digits')
+        return phone
 
     def save(self, request, **kwargs):
         """
