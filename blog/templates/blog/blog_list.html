@@ -30,12 +30,12 @@
             <p class="card-text text-center">
                 {% if user.is_authenticated %}
                     {% if object.is_paid or object.price > 0 %}
-{#                        <form class="text-center" action="{% url 'subscriptions:create-checkout-session' object.slug %}" method="post">#}
+                        <form class="text-center" action="{% url 'subscriptions:create-checkout-session' object.slug %}" method="post">
                             {% csrf_token %}
                         <input type="submit" class="btn btn-success btn-sm" value="Подписаться {{ object.price }} $">
                         </form>
                     {% else %}
-{#                        <a href="{% url 'subscriptions:subscription_create' object.slug %}" class="btn btn-success btn-sm">Подписаться</a>#}
+                        <a href="{% url 'subscriptions:subscription_create' object.slug %}" class="btn btn-success btn-sm">Подписаться</a>
                     {% endif %}
                 {% endif %}
             </p>

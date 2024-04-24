@@ -11,7 +11,7 @@ class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User')
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name='Blog')
     status = models.BooleanField(default=False, verbose_name='Status')
-    paid_status = models.BooleanField(default=False, verbose_name='Paid status')
+    payment_status = models.BooleanField(default=False, verbose_name='Payment status')
     payment_date = models.DateTimeField(auto_now=True, verbose_name='Payment date', **NULLABLE)
 
     class Meta:

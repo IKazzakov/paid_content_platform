@@ -28,7 +28,7 @@ class Blog(models.Model):
     image = models.ImageField(upload_to='blog/', **NULLABLE, verbose_name='Image')
     description = models.TextField(verbose_name='Description', **NULLABLE)
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
-    updated_date = models.DateTimeField(auto_now=True, verbose_name='Updated at')
+    updated_date = models.DateTimeField(auto_now=True, verbose_name='Updated at', **NULLABLE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='User')
     published_on = models.BooleanField(default=False, verbose_name='Published on')
     views = models.IntegerField(default=0, verbose_name='Views', **NULLABLE)

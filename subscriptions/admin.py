@@ -7,7 +7,7 @@ from subscriptions.models import Subscription
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('id','user', 'blog', 'status', 'paid_status', 'payment_date')
+    list_display = ('id','user', 'blog', 'status', 'payment_status', 'payment_date')
 
     class Meta:
         verbose_name = 'Subscription'

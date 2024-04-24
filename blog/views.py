@@ -1,6 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from blog.forms import BlogForm, CommentForm
@@ -40,7 +41,7 @@ class HomePageView(TemplateView):
         return context_data
 
 
-class BlogListView(ListView):
+class BlogListView(LoginRequiredMixin, ListView):
     template_name = 'blog/blog_list.html'
     model = Blog
 
@@ -50,7 +51,7 @@ class BlogListView(ListView):
         return queryset
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     form_class = BlogForm
 
@@ -64,7 +65,7 @@ class BlogCreateView(CreateView):
             return super().form_invalid(form)
 
 
-class BlogDetailView(DetailView):
+class BlogDetailView(LoginRequiredMixin, DetailView):
     model = Blog
     form_class = CommentForm
 
@@ -94,11 +95,27 @@ class BlogDetailView(DetailView):
             return HttpResponseRedirect(self.request.path_info)
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     form_class = BlogForm
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:blog_list')
+
+
+def toggle_activity(request, slug):
+    """
+        Переключает атрибут 'published_on' объекта Blog.
+
+        Args:
+            request (HttpRequest): Объект HTTP-запроса.
+            slug (str): Слаг объекта Blog.
+
+        Returns:
+            HttpResponseRedirect: Перенаправляет на страницу деталей объекта Blog.
+    """
+    record_item = get_object_or_404(Blog, slug=slug)
+    record_item.toggle_published()
+    return redirect(reverse('blog:blog_detail', args=[record_item.slug]))

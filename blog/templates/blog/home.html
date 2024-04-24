@@ -53,7 +53,7 @@
                         {% if user.is_authenticated %}
                             {% if item.user != user %}
                                 {% if item in subscribed_blogs %}
-{#                                    <a href="{% url 'subscriptions:subscription_delete' item.slug %}" class="btn btn-danger btn-sm">Отписаться</a>#}
+                                    <a href="{% url 'subscriptions:subscription_delete' item.slug %}" class="btn btn-danger btn-sm">Отписаться</a>
                                 {% elif item in unsubscribed_blogs %}
                                     {% if item.is_paid or item.price > 0 %}
                                         <form action="{% url 'subscriptions:create-checkout-session' item.slug %}" method="post">
@@ -61,7 +61,7 @@
                                             <input type="submit" class="btn btn-success btn-sm" value="Подписаться {{ item.price }} $">
                                         </form>
                                     {% else %}
-{#                                        <a href="{% url 'subscriptions:subscription_create' item.slug %}" class="btn btn-success btn-sm">Подписаться</a>#}
+                                        <a href="{% url 'subscriptions:subscription_create' item.slug %}" class="btn btn-success btn-sm">Подписаться</a>
                                     {% endif %}
                                 {% endif %}
                             {% endif %}

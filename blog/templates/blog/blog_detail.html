@@ -49,13 +49,13 @@
                         запись</a>
                 {% endif %}
                 <br><br>
-                {#                <a href="{% url 'subscriptions:subscription_list' %}" class="btn btn-secondary">Мой контент</a>#}
+                                <a href="{% url 'subscriptions:subscription_list' %}" class="btn btn-secondary">Мой контент</a>
                 {% if object.user == user %}
                     {% if object.published_on %}
-                        {#                        <a href="{% url 'blog:toggle_activity' object.slug %}" class="btn btn-outline-danger">Снять с#}
+                                                <a href="{% url 'blog:toggle_activity' object.slug %}" class="btn btn-outline-danger">Снять с
                         публикации</a>
                     {% else %}
-                        {#                        <a href="{% url 'blog:toggle_activity' object.slug %}" class="btn btn-outline-primary">Опубликовать</a>#}
+                                                <a href="{% url 'blog:toggle_activity' object.slug %}" class="btn btn-outline-primary">Опубликовать</a>
                     {% endif %}
                 {% endif %}
             </div>
